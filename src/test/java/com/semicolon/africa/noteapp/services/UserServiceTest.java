@@ -24,8 +24,6 @@ public class UserServiceTest {
     @Autowired
     private UserServices userServices;
     @Autowired
-    private UserRepository userRepository;
-    @Autowired
     private NoteServiceImpl noteServiceImpl;
     @Autowired
     private NoteRepository noteRepository;
@@ -133,24 +131,24 @@ public class UserServiceTest {
     @Test
     public void testThatUserCanAddNote(){
         RegisterRequest registerRequest = new RegisterRequest();
-        registerRequest.setFirstName("userFirstName");
-        registerRequest.setLastName("userLastName");
-        registerRequest.setEmail("myEmail");
+        registerRequest.setFirstName("Ying");
+        registerRequest.setLastName("Yang");
+        registerRequest.setEmail("yang@gmail.com");
         registerRequest.setPassword("password");
         RegisterResponse response = userServices.register(registerRequest);
         assertThat(response).isNotNull();
         assertThat(response.getMessage()).isEqualTo("Registration Successful");
 
         LoginRequest loginRequest = new LoginRequest();
-        loginRequest.setEmail("myEmail");
+        loginRequest.setEmail("yang@gmail.com");
         loginRequest.setPassword("password");
         LoginResponse loginResponse = userServices.login(loginRequest);
         assertThat(loginResponse).isNotNull();
 
         AddNoteRequest addNoteRequest = new AddNoteRequest();
-        addNoteRequest.setTitle("Title");
-        addNoteRequest.setContent("Content");
-        addNoteRequest.setAuthorEmail("myEmail");
+        addNoteRequest.setTitle("Lord of the flies");
+        addNoteRequest.setContent("Content of my note. Lord of the flies");
+        addNoteRequest.setAuthorEmail("yang@gmail.com");
         AddNoteResponse noteResponse = userServices.addNote(addNoteRequest);
         assertThat(noteResponse.getMessage()).isEqualTo("Successfully added note");
 
@@ -247,7 +245,7 @@ public class UserServiceTest {
         AddNoteResponse addNoteResponse = userServices.addNote(addNoteRequest);
         assertNotNull(addNoteResponse);
 
-        Note foundNote = userServices.findNoteByTitle("Title");
+        Note foundNote = userServices.findNoteByTitle("title");
         assertNotNull(foundNote);
 
         UpdateNoteRequest updateNoteRequest = new UpdateNoteRequest();
@@ -256,7 +254,7 @@ public class UserServiceTest {
         UpdateNoteResponse updateNoteResponse = userServices.update(updateNoteRequest);
         assertNotNull(updateNoteResponse);
         assertThat(updateNoteResponse.getMessage()).isEqualTo("Note updated successfully");
-        Note updatedNote = userServices.findNoteByTitle("Title");
+        Note updatedNote = userServices.findNoteByTitle("title");
         assertThat(updatedNote.getContent()).isEqualTo("New Content of my note");
     }
 
@@ -288,9 +286,9 @@ public class UserServiceTest {
 
         userServices.deleteNote("title");
         assertEquals(0, noteRepository.count());
-
-
     }
+
+
 
 
 

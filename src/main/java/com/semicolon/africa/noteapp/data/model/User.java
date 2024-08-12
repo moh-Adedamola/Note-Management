@@ -18,4 +18,6 @@ public class User {
     private String password;
     private boolean isLogin;
     private List<Note> notes = new ArrayList<Note>();
+    private List<Note> sharedNote = new ArrayList<>();
+    private List<Note> receivedNotes = new ArrayList<>();
 }

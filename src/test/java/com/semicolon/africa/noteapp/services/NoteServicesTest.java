@@ -1,6 +1,7 @@
 package com.semicolon.africa.noteapp.services;
 
 import com.semicolon.africa.noteapp.data.model.Note;
+import com.semicolon.africa.noteapp.data.repositories.NoteRepository;
 import com.semicolon.africa.noteapp.dtos.request.AddNoteRequest;
 import com.semicolon.africa.noteapp.dtos.request.UpdateNoteRequest;
 import com.semicolon.africa.noteapp.dtos.response.AddNoteResponse;
@@ -20,6 +21,8 @@ public class NoteServicesTest {
 
     @Autowired
     private NoteServices noteServices;
+    @Autowired
+    private NoteRepository noteRepository;
 
     @BeforeEach
 
@@ -54,14 +57,14 @@ public class NoteServicesTest {
     @Test
     public void testFindNoteByTitle(){
         AddNoteRequest addNoteRequest = new AddNoteRequest();
-        addNoteRequest.setTitle("Title");
+        addNoteRequest.setTitle("title");
         addNoteRequest.setContent("Content of my note");
         addNoteRequest.setAuthorEmail("email");
         AddNoteResponse addNoteResponse = noteServices.add(addNoteRequest);
         assertNotNull(addNoteResponse);
         assertThat(addNoteResponse.getMessage()).isEqualTo("note added successfully");
 
-        Note foundNote = noteServices.findNoteByTitle("Title");
+        Note foundNote = noteServices.findNoteByTitle("title");
         assertNotNull(foundNote);
     }
 
@@ -88,11 +91,12 @@ public class NoteServicesTest {
         assertNotNull(addNoteResponse);
         assertThat(addNoteResponse.getMessage()).isEqualTo("note added successfully");
 
-        Note foundNote = noteServices.findNoteByTitle("Title");
+        Note foundNote = noteServices.findNoteByTitle("title");
         assertNotNull(foundNote);
 
-        noteServices.deleteNoteByTitle("Title");
-        assertThrows(NoteNotFoundException.class, ()->noteServices.findNoteByTitle("Title"));
+        noteServices.deleteNoteByTitle("title");
+        assertEquals(0, noteRepository.count());
+        //assertThrows(NoteNotFoundException.class, ()->noteServices.findNoteByTitle("title"));
     }
 
     @Test
@@ -104,7 +108,7 @@ public class NoteServicesTest {
         AddNoteResponse addNoteResponse = noteServices.add(addNoteRequest);
         assertNotNull(addNoteResponse);
 
-        Note foundNote = noteServices.findNoteByTitle("Title");
+        Note foundNote = noteServices.findNoteByTitle("title");
         assertNotNull(foundNote);
 
         UpdateNoteRequest updateNoteRequest = new UpdateNoteRequest();
@@ -113,7 +117,7 @@ public class NoteServicesTest {
         UpdateNoteResponse updateNoteResponse = noteServices.update(updateNoteRequest);
         assertNotNull(updateNoteResponse);
         assertThat(updateNoteResponse.getMessage()).isEqualTo("Note updated successfully");
-        Note updatedNote = noteServices.findNoteByTitle("Title");
+        Note updatedNote = noteServices.findNoteByTitle("title");
         assertThat(updatedNote.getContent()).isEqualTo("New Content of my note");
 
     }

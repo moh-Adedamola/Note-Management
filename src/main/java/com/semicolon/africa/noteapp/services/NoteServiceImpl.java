@@ -3,6 +3,7 @@ package com.semicolon.africa.noteapp.services;
 import com.semicolon.africa.noteapp.data.model.Note;
 import com.semicolon.africa.noteapp.data.model.User;
 import com.semicolon.africa.noteapp.data.repositories.NoteRepository;
+import com.semicolon.africa.noteapp.data.repositories.UserRepository;
 import com.semicolon.africa.noteapp.dtos.request.AddNoteRequest;
 import com.semicolon.africa.noteapp.dtos.request.UpdateNoteRequest;
 import com.semicolon.africa.noteapp.dtos.response.AddNoteResponse;
@@ -38,12 +39,9 @@ public class NoteServiceImpl implements NoteServices {
 
     @Override
     public Note findNoteByTitle(String title) {
-        for (Note note : noteRepository.findAll()) {
-            if (note.getTitle().equals(title.toLowerCase())) {
-                return note;
-            }
-        }
-            throw new NoteNotFoundException("Note does not exist");
+        Note note = noteRepository.findByTitle(title);
+        if(!note.getTitle().equals(title)) throw new NoteNotFoundException("Note not found");
+        return note;
     }
 
     @Override

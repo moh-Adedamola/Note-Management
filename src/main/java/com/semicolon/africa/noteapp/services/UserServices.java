@@ -31,4 +31,6 @@ public interface UserServices {
     UpdateNoteResponse update(UpdateNoteRequest updateNoteRequest);
 
     String deleteNote(String title);
+
+    ShareNoteResponse shareNote(ShareNoteRequest shareNoteRequest);
 }

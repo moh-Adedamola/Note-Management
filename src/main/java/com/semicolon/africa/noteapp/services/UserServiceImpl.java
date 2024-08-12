@@ -106,6 +106,7 @@ public class UserServiceImpl implements UserServices{
             Note newNote = new Note();
             newNote.setTitle(addNoteRequest.getTitle());
             newNote.setContent(addNoteRequest.getContent());
+            newNote.setAuthorEmail(addNoteRequest.getAuthorEmail());
             noteServices.save(newNote);
             List<Note> userNotes = user.getNotes();
             userNotes.add(newNote);
@@ -126,13 +127,6 @@ public class UserServiceImpl implements UserServices{
 
     @Override
     public Note findNoteByTitle(String title) {
-//        for (Note note : noteRepository.findAll()) {
-//            if (note.getTitle().equals(title)) {
-//                return note;
-//            }
-//
-//        }
-//        throw new NoteNotFoundException("Note Does Not Exist");
         return noteServices.findNoteByTitle(title);
     }
 
@@ -152,6 +146,27 @@ public class UserServiceImpl implements UserServices{
         Note note = findNoteByTitle(title);
         noteRepository.delete(note);
         return "Successfully deleted note";
+    }
+
+    @Override
+    public ShareNoteResponse shareNote(ShareNoteRequest shareNoteRequest) {
+        User sender = userRepository.findByEmail(shareNoteRequest.getSender());
+        User receiver = userRepository.findByEmail(shareNoteRequest.getReceiver());
+        Note note = noteServices.findNoteByTitle(shareNoteRequest.getTitle());
+
+        List<Note> senderSharedNotes = sender.getSharedNote();
+        senderSharedNotes.add(note);
+        sender.setNotes(senderSharedNotes);
+        userRepository.save(sender);
+
+        List<Note> receiverSharedNotes = receiver.getSharedNote();
+        receiverSharedNotes.add(note);
+        receiver.setSharedNote(receiverSharedNotes);
+        userRepository.save(receiver);
+
+        ShareNoteResponse shareNoteResponse = new ShareNoteResponse();
+        shareNoteResponse.setMessage("Successfully shared note");
+        return shareNoteResponse;
     }
 
     public void validateEmail(String email) {
