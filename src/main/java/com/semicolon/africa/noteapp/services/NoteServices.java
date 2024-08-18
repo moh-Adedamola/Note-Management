@@ -6,7 +6,6 @@ import com.semicolon.africa.noteapp.dtos.request.UpdateNoteRequest;
 import com.semicolon.africa.noteapp.dtos.response.AddNoteResponse;
 import com.semicolon.africa.noteapp.dtos.response.UpdateNoteResponse;
 
-import java.util.Collection;
 import java.util.List;
 
 public interface NoteServices {
@@ -15,7 +14,7 @@ public interface NoteServices {
 
     Note findNoteByTitle(String title);
 
-    String deleteNoteByTitle(String title);
+    void deleteNoteByTitle(String title);
 
     UpdateNoteResponse update(UpdateNoteRequest updateNoteRequest);
 

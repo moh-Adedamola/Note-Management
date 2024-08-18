@@ -1,20 +1,16 @@
 package com.semicolon.africa.noteapp.services;
 
 import com.semicolon.africa.noteapp.data.model.Note;
-import com.semicolon.africa.noteapp.data.model.User;
 import com.semicolon.africa.noteapp.data.repositories.NoteRepository;
-import com.semicolon.africa.noteapp.data.repositories.UserRepository;
 import com.semicolon.africa.noteapp.dtos.request.AddNoteRequest;
 import com.semicolon.africa.noteapp.dtos.request.UpdateNoteRequest;
 import com.semicolon.africa.noteapp.dtos.response.AddNoteResponse;
 import com.semicolon.africa.noteapp.dtos.response.UpdateNoteResponse;
 import com.semicolon.africa.noteapp.exception.NoteNotFoundException;
 import com.semicolon.africa.noteapp.exception.NoteWithSameTitleException;
-import com.semicolon.africa.noteapp.exception.UserLoginException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
 import java.util.List;
 
 @Service
@@ -45,10 +41,9 @@ public class NoteServiceImpl implements NoteServices {
     }
 
     @Override
-    public String deleteNoteByTitle(String title) {
+    public void deleteNoteByTitle(String title) {
         Note note = findNoteByTitle(title);
         noteRepository.delete(note);
-        return "Note deleted successfully";
     }
 
 

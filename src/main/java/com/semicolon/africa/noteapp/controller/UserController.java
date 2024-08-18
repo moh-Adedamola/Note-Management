@@ -6,6 +6,7 @@ import com.semicolon.africa.noteapp.dtos.request.*;
 import com.semicolon.africa.noteapp.dtos.response.*;
 import com.semicolon.africa.noteapp.services.UserServices;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,11 +14,16 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@AllArgsConstructor
+//@AllArgsConstructor
 @RequestMapping("/api/note")
 public class UserController {
 
+    @Autowired
     private final UserServices userServices;
+
+    public UserController(UserServices userServices) {
+        this.userServices = userServices;
+    }
 
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@RequestBody RegisterRequest registerRequest) {

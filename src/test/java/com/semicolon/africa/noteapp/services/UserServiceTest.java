@@ -3,7 +3,6 @@ package com.semicolon.africa.noteapp.services;
 import com.semicolon.africa.noteapp.data.model.Note;
 import com.semicolon.africa.noteapp.data.model.User;
 import com.semicolon.africa.noteapp.data.repositories.NoteRepository;
-import com.semicolon.africa.noteapp.data.repositories.UserRepository;
 import com.semicolon.africa.noteapp.dtos.request.*;
 import com.semicolon.africa.noteapp.dtos.response.*;
 import com.semicolon.africa.noteapp.exception.UserAlreadyExistException;
@@ -23,15 +22,16 @@ public class UserServiceTest {
 
     @Autowired
     private UserServices userServices;
-    @Autowired
-    private NoteServiceImpl noteServiceImpl;
+
     @Autowired
     private NoteRepository noteRepository;
+    @Autowired
+    private NoteServices noteServices;
 
     @BeforeEach
     public void setUp(){
         userServices.deleteAll();
-        noteServiceImpl.deleteAll();
+        noteServices.deleteAll();
     }
 
     @Test

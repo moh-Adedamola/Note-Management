@@ -10,8 +10,6 @@ import com.semicolon.africa.noteapp.exception.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.security.auth.login.LoginException;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -148,26 +146,7 @@ public class UserServiceImpl implements UserServices{
         return "Successfully deleted note";
     }
 
-    @Override
-    public ShareNoteResponse shareNote(ShareNoteRequest shareNoteRequest) {
-        User sender = userRepository.findByEmail(shareNoteRequest.getSender());
-        User receiver = userRepository.findByEmail(shareNoteRequest.getReceiver());
-        Note note = noteServices.findNoteByTitle(shareNoteRequest.getTitle());
 
-        List<Note> senderSharedNotes = sender.getSharedNote();
-        senderSharedNotes.add(note);
-        sender.setNotes(senderSharedNotes);
-        userRepository.save(sender);
-
-        List<Note> receiverSharedNotes = receiver.getSharedNote();
-        receiverSharedNotes.add(note);
-        receiver.setSharedNote(receiverSharedNotes);
-        userRepository.save(receiver);
-
-        ShareNoteResponse shareNoteResponse = new ShareNoteResponse();
-        shareNoteResponse.setMessage("Successfully shared note");
-        return shareNoteResponse;
-    }
 
     public void validateEmail(String email) {
         for (User user : userRepository.findAll()) {

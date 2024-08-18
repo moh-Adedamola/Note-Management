@@ -96,7 +96,7 @@ public class NoteServicesTest {
 
         noteServices.deleteNoteByTitle("title");
         assertEquals(0, noteRepository.count());
-        //assertThrows(NoteNotFoundException.class, ()->noteServices.findNoteByTitle("title"));
+
     }
 
     @Test
